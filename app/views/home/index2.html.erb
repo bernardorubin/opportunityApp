@@ -1,0 +1,51 @@
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th> </th>
+      <th><img src="https://cdn.volabit.com/assets/volabit-00b4f691b2d749e17c557bd2ec0808a1.png" alt="" height="20px"></th>
+      <th><img src="https://bitso.com/assets/images/b/logo.svg" alt="" height="20px"></th>
+      <th><img src="https://www.bitstamp.net/s/images/Bitstamp_180x40_cropped.png" alt="" height="18px"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sell Price</td>
+      <td class="volabit_sell_btc_mxn"><%= number_to_currency(@volabit_sell_btc_mxn, :unit => "$") %> MXN</td>
+      <td class="bitso_sell_btc_mxn"><%= number_to_currency(@bitso_sell_btc_mxn, :unit => "$") %> MXN</td>
+      <td class="bitstamp_sell_btc_usd"><%= number_to_currency(@bitstamp_sell_btc_usd, :unit => "$") %> USD</td>
+    </tr>
+    <tr>
+      <td>Buy Price</td>
+      <td class="volabit_buy_btc_mxn"><%= number_to_currency(@volabit_buy_btc_mxn, :unit => "$") %> MXN</td>
+      <td class="bitso_buy_btc_mxn"><%= number_to_currency(@bitso_buy_btc_mxn, :unit => "$") %> MXN</td>
+      <td class="bitstamp_buy_btc_usd"><%= number_to_currency(@bitstamp_buy_btc_usd, :unit => "$") %> USD</td>
+    </tr>
+    <tr>
+      <td>Spread</td>
+      <td><%= number_to_currency((@volabit_sell_btc_mxn - @volabit_buy_btc_mxn), :unit => "$") %>(<%= number_with_precision((((@volabit_sell_btc_mxn / @volabit_buy_btc_mxn) - 1)*100), :precision => 2) %>%)</td>
+      <td><%= number_to_currency((@bitso_sell_btc_mxn - @bitso_buy_btc_mxn), :unit => "$") %> (<%= number_with_precision((((@bitso_sell_btc_mxn / @bitso_buy_btc_mxn) - 1)*100), :precision => 2) %>%)</td>
+      <td><%= number_to_currency((@bitstamp_sell_btc_usd - @bitstamp_buy_btc_usd), :unit => "$") %> (<%= number_with_precision((((@bitstamp_sell_btc_usd / @bitstamp_buy_btc_usd) - 1)*100), :precision => 2) %>%)</td>
+    </tr>
+    <tr>
+      <td>%</td>
+      <td>%</td>
+      <td>%</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<h1>Volabit WebSockets Chat room</h1>
+<form>
+  <label>Say something:</label>
+  <br>
+  <input type="text" data-behavior="room_speaker">
+</form>
+
+<div id="messages">
+  <%= render @messages %>
+</div>
