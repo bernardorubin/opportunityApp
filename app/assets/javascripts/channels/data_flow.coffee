@@ -29,6 +29,7 @@ App.data_flow = App.cable.subscriptions.create "DataFlowChannel",
 
     $('.fx_mxn_usd').html data['fx_mxn_usd']
 
+    # TODO: Refactor This
     $('.volabit_bitso_sell_diff').html Math.abs((((parseFloat((data['volabit_sell_btc_mxn'])) / parseFloat((data['bitso_sell_btc_mxn'])))-1)*100)).toFixed(2) + '%'
     $('.volabit_bitso_buy_diff').html Math.abs((((parseFloat((data['volabit_buy_btc_mxn'])) / parseFloat((data['bitso_buy_btc_mxn'])))-1)*100)).toFixed(2) + '%'
     $('.bitso_bitstamp_sell_diff').html Math.abs((((parseFloat((data['bitso_sell_btc_mxn'])) / parseFloat((data['bitstamp_sell_btc_mxn'])))-1)*100)).toFixed(2) + '%'
