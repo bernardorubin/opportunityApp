@@ -4,13 +4,16 @@
     <title>OpportunityApp</title>
     <%= csrf_meta_tags %>
 
+    <%= stylesheet_link_tag 'https://bootswatch.com/paper/bootstrap.min.css' %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
-    <div class="container">
-    <%= yield %>
+    <div class="container" style="margin-top: 20px; text-align: center">
+      <h2>Opportunity Detector</h2>
+      <hr>
+      <%= yield %>
     </div>
   </body>
 </html>

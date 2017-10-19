@@ -7,22 +7,31 @@ App.data_flow = App.cable.subscriptions.create "DataFlowChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    console.log 'Hello'
-    console.log data['data']['bitso_buy_btc_mxn']
-    $('.volabit_buy_btc_mxn').html (data['data']['volabit_buy_btc_mxn']) + "MXN"
-    $('.volabit_sell_btc_mxn').html (data['data']['volabit_sell_btc_mxn']) + "MXN"
-    $('.bitso_buy_btc_mxn').html (data['data']['bitso_buy_btc_mxn']) + "MXN"
-    $('.bitso_sell_btc_mxn').html (data['data']['bitso_sell_btc_mxn']) + "MXN"
-    $('.bitstamp_buy_btc_usd').html (data['data']['bitstamp_buy_btc_usd']) + "USD"
-    $('.bitstamp_sell_btc_usd').html (data['data']['bitstamp_sell_btc_usd']) + "USD"
+    htmlClasses = ['volabit_sell_btc_mxn', 'volabit_buy_btc_mxn', 'bitso_sell_btc_mxn',
+              'bitso_buy_btc_mxn', 'bitstamp_sell_btc_mxn', 'bitstamp_buy_btc_mxn']
 
-    $('.volabit_spread').html (parseFloat((data['data']['volabit_sell_btc_mxn'])) - parseFloat((data['data']['volabit_buy_btc_mxn']))).toFixed(2)
-    $('.bitso_spread').html (parseFloat((data['data']['bitso_sell_btc_mxn'])) - parseFloat((data['data']['bitso_buy_btc_mxn']))).toFixed(2)
-    $('.bitstamp_spread').html (parseFloat((data['data']['bitstamp_sell_btc_usd'])) - parseFloat((data['data']['bitstamp_buy_btc_usd']))).toFixed(2)
+    htmlClasses.map((htmlClass) ->
+        currency = htmlClass.substr(htmlClass.length - 3)
+        $("." + htmlClass).html data[htmlClass].toFixed(2) + currency.toUpperCase()
+      )
 
-    $('.volabit_spread_percentage').html (((parseFloat((data['data']['volabit_sell_btc_mxn'])) / parseFloat((data['data']['volabit_buy_btc_mxn'])))-1)*100).toFixed(2) + "%"
-    $('.bitso_spread_percentage').html (((parseFloat((data['data']['bitso_sell_btc_mxn'])) / parseFloat((data['data']['bitso_buy_btc_mxn'])))-1)*100).toFixed(2) + "%"
-    $('.bitstamp_spread_percentage').html (((parseFloat((data['data']['bitstamp_sell_btc_usd'])) / parseFloat((data['data']['bitstamp_buy_btc_usd'])))-1)*100).toFixed(2) + "%"
+    spreadCalculations = ['volabit_spread', 'volabit_spread_percentage', 'bitso_spread',
+                          'bitso_spread_percentage', 'bitstamp_spread', 'bitstamp_spread_percentage']
 
+    spreadCalculations.map((spreadClass, index) ->
+        console.log index
+        lastLetter = spreadClass.substr(spreadClass.length - 1)
+        if lastLetter == 'd'
+          $("." + spreadClass).html (parseFloat((data[htmlClasses[index]])) - parseFloat((data[htmlClasses[index + 1]]))).toFixed(2)
+        else
+          $("." + spreadClass).html (((parseFloat((data[htmlClasses[index-1]])) / parseFloat((data[htmlClasses[index]])))-1)*100).toFixed(2) + "%"
+      )
 
-    $('body').append("<div> New Data !</div>")
+    $('.fx_mxn_usd').html data['fx_mxn_usd']
+
+    $('.volabit_bitso_sell_diff').html Math.abs((((parseFloat((data['volabit_sell_btc_mxn'])) / parseFloat((data['bitso_sell_btc_mxn'])))-1)*100)).toFixed(2) + '%'
+    $('.volabit_bitso_buy_diff').html Math.abs((((parseFloat((data['volabit_buy_btc_mxn'])) / parseFloat((data['bitso_buy_btc_mxn'])))-1)*100)).toFixed(2) + '%'
+    $('.bitso_bitstamp_sell_diff').html Math.abs((((parseFloat((data['bitso_sell_btc_mxn'])) / parseFloat((data['bitstamp_sell_btc_mxn'])))-1)*100)).toFixed(2) + '%'
+    $('.bitso_bitstamp_buy_diff').html Math.abs((((parseFloat((data['bitso_buy_btc_mxn'])) / parseFloat((data['bitstamp_buy_btc_mxn'])))-1)*100)).toFixed(2) + '%'
+
+    $('body').append("<div> New Data Received -> Updating </div>")
