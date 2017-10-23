@@ -6,7 +6,7 @@ class FetchDataJob < ApplicationJob
   end
 
   def perform(*args)
-    fetch && calc && ActionCable.server.broadcast 'data_flow_channel', data
+    fetch && calc && ActionCable.server.broadcast('data_flow_channel', data)
   end
 
   def fetch
@@ -31,15 +31,15 @@ class FetchDataJob < ApplicationJob
 
   def data
     {
-      volabit_sell_btc_mxn = @volabit_sell_btc_mxn,
-      volabit_buy_btc_mxn = @volabit_buy_btc_mxn,
-      bitso_sell_btc_mxn = @bitso_sell_btc_mxn,
-      bitso_buy_btc_mxn = @bitso_buy_btc_mxn,
-      bitstamp_sell_btc_usd = @bitstamp_sell_btc_usd,
-      bitstamp_buy_btc_usd = @bitstamp_buy_btc_usd,
-      bitstamp_sell_btc_mxn = @bitstamp_sell_btc_mxn,
-      bitstamp_buy_btc_mxn = @bitstamp_buy_btc_mxn,
-      fx_mxn_usd = @fx_mxn_usd
+      volabit_sell_btc_mxn: @volabit_sell_btc_mxn,
+      volabit_buy_btc_mxn: @volabit_buy_btc_mxn,
+      bitso_sell_btc_mxn: @bitso_sell_btc_mxn,
+      bitso_buy_btc_mxn: @bitso_buy_btc_mxn,
+      bitstamp_sell_btc_usd: @bitstamp_sell_btc_usd,
+      bitstamp_buy_btc_usd: @bitstamp_buy_btc_usd,
+      bitstamp_sell_btc_mxn: @bitstamp_sell_btc_mxn,
+      bitstamp_buy_btc_mxn: @bitstamp_buy_btc_mxn,
+      fx_mxn_usd: @fx_mxn_usd
     }
   end
 end
