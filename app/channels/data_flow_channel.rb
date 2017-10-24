@@ -1,10 +1,17 @@
 class DataFlowChannel < ApplicationCable::Channel
+#   attr_reader :volabit_ticker,
+#             :bitso_ticker,
+#             :bitstamp_ticker,
+#             :usd_mxn
+#
+# periodically :update_prices, every: 5.seconds
+
   def subscribed
     stream_from "data_flow_channel"
     # update_prices
   end
 
-  # Solución incompleta Genaro 
+  # Solución incompleta Genaro
   # private
   #
   # def update_prices
